@@ -138,6 +138,7 @@ export const hi = {
         recentCollections: "हालिया कलेक्शन",
         viewAll: "सभी देखें",
         noEntries: "अभी तक कोई एंट्री नहीं। दूध कलेक्शन शुरू करें!",
+        noEntriesYet: "अभी तक कोई एंट्री नहीं।",
         newEntry: "नई एंट्री",
         addFarmer: "किसान जोड़ें",
         sendAlert: "अलर्ट भेजें",

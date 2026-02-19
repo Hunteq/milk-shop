@@ -142,6 +142,7 @@ export const ta = {
         recentCollections: "சமீபத்திய கொள்முதல்",
         viewAll: "அனைத்தையும் பார்",
         noEntries: "பதிவுகள் ஏதுமில்லை. பால் கொள்முதல் தொடங்கவும்!",
+        noEntriesYet: "பதிவுகள் ஏதுமில்லை.",
         newEntry: "புதிய பதிவு",
         addFarmer: "விவசாயியைச் சேர்",
         sendAlert: "எச்சரிக்கை அனுப்பு",

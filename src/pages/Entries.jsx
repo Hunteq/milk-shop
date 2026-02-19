@@ -393,7 +393,7 @@ const Entries = () => {
                                     );
                                 })}
                                 {entries.length === 0 && (
-                                    <tr><td colSpan="6" className="empty-state">{t('dashboard.noEntriesYet')}</td></tr>
+                                    <tr><td colSpan="6" className="empty-state">{t('entries.noEntries')}</td></tr>
                                 )}
                             </tbody>
                         </table>

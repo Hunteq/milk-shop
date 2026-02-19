@@ -142,6 +142,7 @@ export const en = {
         recentCollections: "Recent Collections",
         viewAll: "View All",
         noEntries: "No entries yet. Start collecting milk!",
+        noEntriesYet: "No entries yet.",
         newEntry: "New Entry",
         addFarmer: "Add Farmer",
         sendAlert: "Send Alert",
