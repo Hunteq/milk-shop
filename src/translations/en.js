@@ -56,8 +56,10 @@ export const en = {
         saved: "Saved",
         cow: "Cow", // Added as per request
         buffalo: "Buffalo", // Added as per request
-        farmerId: "Farmer ID", // Added as per request
-        shift: "Shift", // Added as per request
+        farmerId: "Farmer ID",
+        shift: "Shift",
+        farmer: "Farmer",
+        selected: "Selected",
     },
     entries: {
         title: "Milk Collection",

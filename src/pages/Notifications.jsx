@@ -17,8 +17,6 @@ const Notifications = () => {
     const [showFarmerDropdown, setShowFarmerDropdown] = useState(false);
     const [showNoMilkDropdown, setShowNoMilkDropdown] = useState(false);
 
-    // Send Queue State
-    const [sendQueue, setSendQueue] = useState([]);
 
     // Emergency Request State
     const [emergencyData, setEmergencyData] = useState({
@@ -122,20 +120,16 @@ const Notifications = () => {
         const message = `🥛 *${t('notifications.emergencyMessage')}*\n${t('notifications.need')} ${emergencyData.liters} L\n${t('notifications.shift')} ${shiftLabel}\nPlease confirm.\n\n- ${currentBranch.name}\n📍 ${currentBranch.location}\n📞 ${currentBranch.memberMobile || ''}`;
 
         if (channel === 'whatsapp') {
-            const queue = rawRecipients.map(r => ({
-                ...r,
-                phone: normalizePhone(r.phone),
-                message,
-                type: 'Emergency Request',
-                sent: false
-            }));
-            setSendQueue(queue);
-            setActiveTab('queue');
+            for (const r of rawRecipients) {
+                const phone = normalizePhone(r.phone);
+                const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+                alert(`${t('notifications.sendTo')}: ${r.name} (${r.phone})`);
+                window.open(url, '_blank');
+            }
         } else {
             const phones = rawRecipients.map(r => r.phone);
             const smsLink = `sms:${phones.join(',')}?body=${encodeURIComponent(message)}`;
             window.location.href = smsLink;
-            alert(t('notifications.appOpened').replace('{n}', phones.length));
         }
     };
 
@@ -156,31 +150,19 @@ const Notifications = () => {
         const message = `❌ *${t('notifications.noMilkMessage')}*\n${t('notifications.today')} ${shiftLabel} ${t('notifications.shift')}\n\n- ${currentBranch.name}\n📍 ${currentBranch.location}\n📞 ${currentBranch.memberMobile || ''}`;
 
         if (channel === 'whatsapp') {
-            const queue = rawRecipients.map(r => ({
-                ...r,
-                phone: normalizePhone(r.phone),
-                message,
-                type: 'No Milk Alert',
-                sent: false
-            }));
-            setSendQueue(queue);
-            setActiveTab('queue');
+            for (const r of rawRecipients) {
+                const phone = normalizePhone(r.phone);
+                const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+                alert(`${t('notifications.sendTo')}: ${r.name} (${r.phone})`);
+                window.open(url, '_blank');
+            }
         } else {
             const phones = rawRecipients.map(r => r.phone);
             const smsLink = `sms:${phones.join(',')}?body=${encodeURIComponent(message)}`;
             window.location.href = smsLink;
-            alert(t('notifications.appOpened').replace('{n}', phones.length));
         }
     };
 
-    const handleQueueSend = async (index) => {
-        const item = sendQueue[index];
-        window.open(`https://wa.me/${item.phone}?text=${encodeURIComponent(item.message)}`, '_blank');
-
-        const newQueue = [...sendQueue];
-        newQueue[index].sent = true;
-        setSendQueue(newQueue);
-    };
 
 
     return (
@@ -211,16 +193,6 @@ const Notifications = () => {
                         >
                             <Bell size={18} /> {t('notifications.noMilk')}
                         </button>
-                        {sendQueue.length > 0 && (
-                            <button
-                                className={`tab ${activeTab === 'queue' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('queue')}
-                                style={{ position: 'relative' }}
-                            >
-                                <Send size={18} /> {t('notifications.sendQueue')}
-                                <span className="queue-badge">{sendQueue.filter(q => !q.sent).length}</span>
-                            </button>
-                        )}
                     </div>
 
                     {activeTab === 'emergency' && (
@@ -430,43 +402,14 @@ const Notifications = () => {
                         </div>
                     )}
 
-                    {activeTab === 'queue' && (
-                        <div className="card">
-                            <div className="card-header-flex">
-                                <h3><Send size={20} /> WhatsApp {t('notifications.sendQueue')}</h3>
-                                <button className="btn btn-ghost text-red-600" onClick={() => { if (window.confirm(t('notifications.confirmClear'))) setSendQueue([]); }}>
-                                    <Trash2 size={16} /> {t('notifications.clearQueue')}
-                                </button>
-                            </div>
-                            <p className="queue-hint">{t('notifications.queueHint')}</p>
-
-                            <div className="queue-list">
-                                {sendQueue.map((item, i) => (
-                                    <div key={i} className={`queue-item ${item.sent ? 'sent' : ''}`}>
-                                        <div className="queue-info">
-                                            <span className="q-name">{item.name}</span>
-                                            <span className="q-phone">{item.phone}</span>
-                                        </div>
-                                        {item.sent ? (
-                                            <span className="q-status"><CheckCircle size={18} /> {t('notifications.sent')}</span>
-                                        ) : (
-                                            <button className="btn btn-accent btn-sm" onClick={() => handleQueueSend(i)}>
-                                                {t('notifications.send')} <ExternalLink size={14} />
-                                            </button>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
 
                     <style dangerouslySetInnerHTML={{
                         __html: `
                 .notifications-page { display: flex; flex-direction: column; gap: 24px; max-width: 800px; padding-bottom: 40px; }
                 .page-header h1 { color: var(--primary); font-size: 1.75rem; }
                 
-                .notification-tabs { display: flex; gap: 8px; background: #f1f5f9; padding: 6px; border-radius: 12px; overflow-x: auto; scrollbar-width: none; }
-                .tab { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 8px; border: none; background: transparent; cursor: pointer; font-weight: 700; color: #64748b; transition: 0.2s; white-space: nowrap; font-size: 0.9rem; }
+                .notification-tabs { display: flex; gap: 12px; background: #f1f5f9; padding: 6px; border-radius: 12px; overflow-x: auto; scrollbar-width: none; }
+                .tab { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 20px; border-radius: 8px; border: none; background: transparent; cursor: pointer; font-weight: 700; color: #64748b; transition: 0.2s; white-space: nowrap; font-size: 0.95rem; flex: 1; }
                 .tab.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
                 .queue-badge { position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
                 .notification-form h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 1.1rem; }

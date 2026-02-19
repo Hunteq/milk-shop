@@ -370,25 +370,24 @@ const Entries = () => {
                                     const f = farmers.find(farm => farm.id === entry.farmerId);
                                     return (
                                         <tr key={entry.id}>
-                                            <td>
+                                            <td data-label={t('entries.farmerLabel')}>
                                                 <div className="farmer-cell">
                                                     <span className="name">{f?.name || 'Unknown'}</span>
                                                     <span className="sub">#{f?.manualId || entry.farmerId} • {entry.milkType}</span>
                                                 </div>
                                             </td>
-                                            <td className="bold">{entry.quantity} L</td>
-                                            <td>{entry.fat} / {entry.snf}</td>
-                                            <td>₹{entry.rate}</td>
-                                            <td className="amount">₹{entry.amount.toFixed(2)}</td>
-                                            {!isFarmer && (
+                                            <td data-label={t('entries.quantity')} className="bold">{entry.quantity} L</td>
+                                            <td data-label="FAT/SNF">{entry.fat} / {entry.snf}</td>
+                                            <td data-label={t('entries.applicableRate')}>₹{entry.rate}</td>
+                                            <td data-label={t('entries.totalAmount')} className="amount">₹{entry.amount.toFixed(2)}</td>
+                                            {!isFarmer ? (
                                                 <td>
                                                     <div className="action-row">
                                                         <button className="icon-btn" onClick={() => handleEdit(entry)}><Edit2 size={14} /></button>
                                                         <button className="icon-btn delete" onClick={() => handleDelete(entry.id)}><Trash2 size={14} /></button>
                                                     </div>
                                                 </td>
-                                            )}
-                                            {isFarmer && <td></td>}
+                                            ) : <td></td>}
                                         </tr>
                                     );
                                 })}
@@ -482,13 +481,72 @@ const Entries = () => {
                 .empty-state { text-align: center; padding: 40px !important; color: #94a3b8; font-weight: 600; border: none !important; background: transparent !important; }
 
                 @media (max-width: 768px) {
-                    .entries-page { gap: 16px; }
-                    .page-header { flex-direction: column; align-items: stretch; gap: 12px; }
-                    .filter-bar { flex-direction: column; }
-                    .entry-form { grid-template-columns: 1fr; gap: 12px; }
-                    .form-row { grid-template-columns: 1fr; }
-                    .collection-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-                    .collection-table th, .collection-table td { padding: 10px 8px; font-size: 0.8rem; }
+                    .entries-page { gap: 16px; padding: 12px; padding-bottom: 80px; }
+                    .page-header { flex-direction: column; align-items: stretch; gap: 16px; }
+                    .collection-meta { flex-direction: column; width: 100%; }
+                    .meta-item { width: 100%; justify-content: space-between; }
+                    .shift-toggle { width: 100%; }
+                    .shift-btn { flex: 1; justify-content: center; }
+
+                    .stats-row { grid-template-columns: 1fr; gap: 10px; }
+                    .mini-stat { padding: 16px; flex-direction: row; justify-content: space-between; align-items: center; }
+                    .mini-stat .value { font-size: 1.25rem; }
+
+                    .entry-grid { gap: 16px; }
+                    .form-row { grid-template-columns: 1fr; gap: 12px; }
+                    
+                    .list-card .card-header-flex { margin-bottom: 12px; }
+                    .table-responsive { border: none; }
+                    
+                    /* Card-based layout for mobile */
+                    .collection-table { display: block; }
+                    .collection-table thead { display: none; }
+                    .collection-table tbody { display: grid; grid-template-columns: 1fr; gap: 12px; }
+                    .collection-table tr { 
+                        display: flex; 
+                        flex-direction: column; 
+                        gap: 12px; 
+                        padding: 16px; 
+                        background: white; 
+                        border: 1.5px solid var(--border); 
+                        border-radius: 16px;
+                        position: relative;
+                    }
+                    .collection-table td { 
+                        display: flex; 
+                        justify-content: space-between; 
+                        align-items: center; 
+                        padding: 0; 
+                        border: none; 
+                        background: transparent;
+                    }
+                    .collection-table td:first-child, .collection-table td:last-child { border: none; border-radius: 0; }
+                    
+                    .collection-table td::before {
+                        content: attr(data-label);
+                        font-size: 0.75rem;
+                        font-weight: 800;
+                        color: #64748b;
+                        text-transform: uppercase;
+                    }
+
+                    .collection-table td:first-child { 
+                        order: -1; 
+                        border-bottom: 1px solid var(--border);
+                        padding-bottom: 10px;
+                        margin-bottom: 4px;
+                    }
+                    .collection-table td:first-child::before { display: none; }
+                    .collection-table td:last-child {
+                        position: absolute;
+                        top: 16px;
+                        right: 16px;
+                    }
+                    .collection-table td:last-child::before { display: none; }
+
+                    .farmer-cell { width: 100%; }
+                    .amount { font-size: 1.25rem; }
+
                     .calc-summary { padding: 16px; }
                     .calc-item.total .value { font-size: 1.3rem; }
                     .btn-large { padding: 14px; font-size: 1rem; }

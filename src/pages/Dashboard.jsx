@@ -358,11 +358,12 @@ const Dashboard = () => {
           }
 
           .branch-meta {
-            font-size: 0.8rem !important;
+            font-size: 0.85rem !important;
             flex-direction: column !important;
-            align-items: flex-start !important;
-            gap: 4px !important;
+            align-items: stretch !important;
+            gap: 8px !important;
           }
+          .branch-meta span:nth-child(even) { display: none; }
 
           .stats-grid {
             grid-template-columns: 1fr;
@@ -371,15 +372,27 @@ const Dashboard = () => {
 
           .stat-card {
             padding: 16px;
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
           }
 
           .stat-icon {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+          }
+
+          .stat-info {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex: 1;
           }
 
           .stat-info .value {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
           }
 
           .dashboard-sections {
@@ -399,17 +412,30 @@ const Dashboard = () => {
             font-size: 0.85rem;
           }
 
+          .recent-list { gap: 10px; }
           .recent-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            gap: 12px;
+            border-radius: 12px;
           }
 
+          .recent-info { gap: 2px; flex: 1; }
+          .farmer-name { font-size: 0.95rem; }
+          .entry-meta { font-size: 0.75rem; }
+
           .recent-values {
-            flex-direction: row;
-            gap: 12px;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+            min-width: 80px;
           }
+          .recent-values .qty { font-size: 0.85rem; }
+          .recent-values .amt { font-size: 1rem; }
         }
 
         @media (max-width: 480px) {

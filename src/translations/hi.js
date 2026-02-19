@@ -54,6 +54,8 @@ export const hi = {
         enterName: "नाम दर्ज करें",
         enterMobile: "मोबाइल नंबर दर्ज करें",
         saved: "सहेजा गया",
+        farmer: "किसान",
+        selected: "चयनित",
     },
     entries: {
         title: "दूध कलेक्शन",

@@ -56,8 +56,10 @@ export const ta = {
         saved: "சேமிக்கப்பட்டது",
         cow: "பசு", // Added as per request
         buffalo: "எருமை", // Added as per request
-        farmerId: "விவசாயி", // Added as per request (Corrected to Tamil script if possible, or transliterated) - actually let's use sensible Tamil
-        shift: "நேரம்", // Added as per request
+        farmerId: "விவசாயி",
+        shift: "நேரம்",
+        farmer: "விவசாயி",
+        selected: "தேர்ந்தெடுக்கப்பட்டது",
     },
     entries: {
         title: "பால் கொள்முதல்",

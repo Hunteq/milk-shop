@@ -147,32 +147,32 @@ const Farmers = () => {
                         <tbody>
                             {filteredFarmers.map(farmer => (
                                 <tr key={farmer.id}>
-                                    <td><span className="id-badge">#{farmer.manualId || farmer.id}</span></td>
-                                    <td>
+                                    <td data-label={t('farmers.id')}><span className="id-badge">#{farmer.manualId || farmer.id}</span></td>
+                                    <td data-label={t('farmers.name')}>
                                         <div className="farmer-name-cell">
                                             <div className="avatar-sm">{farmer.name[0]}</div>
                                             <span>{farmer.name}</span>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td data-label={t('farmers.cattleType')}>
                                         <span className={`badge ${farmer.milkType.toLowerCase()}`}>
                                             {farmer.milkType === 'Cow' ? `🐄 ${t('farmers.cow')}` : `🐃 ${t('farmers.buffalo')}`}
                                         </span>
                                     </td>
-                                    <td>{farmer.phone || 'N/A'}</td>
-                                    <td>
+                                    <td data-label={t('farmers.mobile')}>{farmer.phone || 'N/A'}</td>
+                                    <td data-label={t('common.status')}>
                                         <span className={`status-pill ${farmer.status.toLowerCase()}`}>
                                             {farmer.status}
                                         </span>
                                     </td>
-                                    {!isFarmer && (
+                                    {!isFarmer ? (
                                         <td>
                                             <div className="action-btns">
                                                 <button className="icon-btn edit" onClick={() => handleOpenModal(farmer)}><Edit2 size={16} /></button>
                                                 <button className="icon-btn delete" onClick={() => handleDelete(farmer.id)}><Trash2 size={16} /></button>
                                             </div>
                                         </td>
-                                    )}
+                                    ) : <td></td>}
                                 </tr>
                             ))}
                             {filteredFarmers.length === 0 && (
@@ -295,15 +295,77 @@ const Farmers = () => {
         .empty-row { text-align: center; padding: 40px; color: var(--text-muted); font-style: italic; }
 
         @media (max-width: 768px) {
-            .farmers-page { gap: 16px; }
-            .page-header { flex-direction: column; align-items: stretch; gap: 12px; }
-            .filter-bar { flex-direction: column; }
-            .farmer-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .farmer-table th, .farmer-table td { padding: 12px 8px; font-size: 0.85rem; }
-            .modal { padding: 20px; max-width: 100%; }
-            .form-row { grid-template-columns: 1fr; }
-            .modal-footer { flex-direction: column-reverse; }
-            .modal-footer .btn { width: 100%; }
+            .farmers-page { gap: 16px; padding: 12px; padding-bottom: 80px; }
+            .page-header { flex-direction: column; align-items: stretch; gap: 16px; }
+            .page-header .btn { width: 100%; order: -1; margin-bottom: 8px; }
+            
+            .filter-bar { flex-direction: column; width: 100%; }
+            .search-box { width: 100%; }
+
+            /* Card-based layout for farmers */
+            .farmer-table { display: block; border: none; }
+            .farmer-table thead { display: none; }
+            .farmer-table tbody { display: grid; grid-template-columns: 1fr; gap: 12px; }
+            .farmer-table tr { 
+                display: flex; 
+                flex-direction: column; 
+                gap: 12px; 
+                padding: 16px; 
+                background: white; 
+                border: 1.5px solid var(--border); 
+                border-radius: 16px;
+                position: relative;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            }
+            .farmer-table td { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                padding: 0; 
+                border: none; 
+                background: transparent;
+            }
+            
+            .farmer-table td::before {
+                content: attr(data-label);
+                font-size: 0.75rem;
+                font-weight: 800;
+                color: #64748b;
+                text-transform: uppercase;
+            }
+
+            /* Header part of the card (Name & ID) */
+            .farmer-table td:nth-child(2) { 
+                order: -2; 
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 10px;
+                margin-bottom: 4px;
+            }
+            .farmer-table td:nth-child(2)::before { display: none; }
+            
+            .farmer-table td:first-child {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                width: auto;
+            }
+            .farmer-table td:first-child::before { display: none; }
+
+            /* Actions positioning */
+            .farmer-table td:last-child {
+                order: 1;
+                margin-top: 8px;
+                padding-top: 12px;
+                border-top: 1px dashed var(--border);
+                justify-content: flex-end;
+            }
+            .farmer-table td:last-child::before { display: none; }
+
+            .modal-overlay { padding: 16px; }
+            .modal { padding: 20px; max-width: 100%; border-radius: 20px; }
+            .form-row { grid-template-columns: 1fr; gap: 12px; }
+            .modal-footer { flex-direction: column-reverse; gap: 10px; margin-top: 20px; }
+            .modal-footer .btn { width: 100%; padding: 14px; }
         }
       `}} />
         </div>

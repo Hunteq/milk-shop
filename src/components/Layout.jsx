@@ -416,10 +416,11 @@ const Layout = ({ children }) => {
         }
 
         .bottom-nav-grid {
-          display: grid;
-          grid-template-columns: repeat(8, 1fr);
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
           width: 100%;
-          gap: 4px;
+          gap: 2px;
         }
 
         .bottom-nav-link {
@@ -430,11 +431,13 @@ const Layout = ({ children }) => {
           gap: 4px;
           color: #64748b;
           text-decoration: none;
-          font-size: 0.65rem;
+          font-size: 0.6rem;
           font-weight: 600;
           transition: all 0.2s;
-          padding: 4px 0;
+          padding: 6px 4px;
           border-radius: 12px;
+          flex: 1;
+          min-width: 0;
         }
 
         .bottom-nav-link.active {
